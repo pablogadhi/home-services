@@ -1,0 +1,13 @@
+services:
+  filegator:
+    image: filegator/filegator:latest
+    container_name: filegator
+    user: 1000:1000
+    ports:
+      - 8080:8080
+    volumes:
+      - /mnt/media:/var/www/filegator/repository
+      - ./private:/var/www/filegator/private
+      - ./configuration.php:/var/www/filegator/configuration.php
+      - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+    restart: 'always'

@@ -1,0 +1,50 @@
+services:
+  homeassistant:
+    container_name: homeassistant
+    image: "ghcr.io/home-assistant/home-assistant:stable"
+    volumes:
+      - ./config:/config
+      - /etc/localtime:/etc/localtime:ro
+      - /run/dbus:/run/dbus:ro
+    restart: always
+    privileged: true
+    network_mode: host
+  whisper:
+    container_name: whisper
+    image: "rhasspy/wyoming-whisper:latest"
+    ports:
+      - 10300:10300
+    volumes:
+      - ./whisper_data:/data
+    command:
+      --language en
+      --model "base.en"
+      --beam-size 4
+    restart: always
+  piper:
+    container_name: piper
+    image: "rhasspy/wyoming-piper:1.5.0"
+    ports:
+      - 10200:10200
+    volumes:
+      - ./piper_data:/data
+      - ./piper_voices:/share/piper
+    command:
+      --update-voices
+      --voice en_GB-semaine-medium
+      --speaker 3
+    restart: always
+  microwakeword:
+    container_name: microwakeword
+    image: "rhasspy/wyoming-microwakeword:latest"
+    ports:
+      - 10400:10400
+    restart: always
+  ewelink:
+    container_name: ewelink
+    image: "ewelink_smart_home"
+    volumes:
+      - ./ewelink_data:/data
+    env_file: .ewelink_env
+    network_mode: host
+    restart: always

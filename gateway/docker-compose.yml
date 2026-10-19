@@ -1,0 +1,52 @@
+services:
+  gateway:
+    image: nginx:1.30.4-alpine
+    container_name: gateway
+    restart: unless-stopped
+
+    # host networking so nginx can reach services bound to 127.0.0.1
+    # (both the systemd ones and the docker ones published on localhost).
+    # With this mode the "ports:" key is ignored — nginx binds host :80 directly.
+    network_mode: host
+
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./nginx/snippets:/etc/nginx/snippets:ro
+      - ./nginx/html:/usr/share/nginx/html:ro
+      - ./nginx/logs:/var/log/nginx
+
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1/healthz"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+# ---------------------------------------------------------------------------
+# ALTERNATIVE: bridge networking instead of host networking.
+#
+# Use this if you'd rather not give the container the host network stack.
+# You must then change every "127.0.0.1" in nginx/conf.d/gateway.conf to
+# "host.docker.internal".
+#
+# services:
+#   gateway:
+#     image: nginx:1.27-alpine
+#     container_name: gateway
+#     restart: unless-stopped
+#     ports:
+#       - "80:80"
+#     extra_hosts:
+#       - "host.docker.internal:host-gateway"
+#     volumes:
+#       - ./nginx/conf.d:/etc/nginx/conf.d:ro
+#       - ./nginx/snippets:/etc/nginx/snippets:ro
+#       - ./nginx/html:/usr/share/nginx/html:ro
+#       - ./nginx/logs:/var/log/nginx
+# ---------------------------------------------------------------------------

@@ -1,0 +1,54 @@
+services:
+  syncthing:
+    image: syncthing/syncthing:latest
+    container_name: syncthing
+    hostname: gamesaves-hub
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      PUID: 1000
+      PGID: 1000
+      STGUIADDRESS: 0.0.0.0:8384
+    volumes:
+      - ./syncthing/config:/var/syncthing/config
+      - ./syncthing/data:/var/syncthing/data
+
+  restic-backup:
+    image: mazzolino/restic:latest
+    container_name: restic-backup
+    hostname: gamesaves-hub
+    restart: unless-stopped
+    environment:
+      TZ: America/Guatemala
+      RUN_ON_STARTUP: "true"
+      BACKUP_CRON: "0 0 16 * * *"
+      RESTIC_REPOSITORY: /repo
+      RESTIC_PASSWORD_FILE: /run/secrets/restic_password
+      RESTIC_BACKUP_SOURCES: /data
+      RESTIC_BACKUP_ARGS: >-
+        --tag gamesaves
+        --exclude .stversions
+        --exclude .stfolder
+      RESTIC_FORGET_ARGS: >-
+        --keep-daily 14
+        --keep-weekly 8
+        --keep-monthly 12
+    volumes:
+      - ./syncthing/data:/data:ro
+      - /mnt/media/backup/gamesaves:/repo
+      - ./restic_password:/run/secrets/restic_password:ro
+
+  restic-prune:
+    image: mazzolino/restic:latest
+    container_name: restic-prune
+    hostname: gamesaves-hub
+    restart: unless-stopped
+    environment:
+      TZ: America/Guatemala
+      SKIP_INIT: "true"
+      PRUNE_CRON: "0 0 17 * * 0"
+      RESTIC_REPOSITORY: /repo
+      RESTIC_PASSWORD_FILE: /run/secrets/restic_password
+    volumes:
+      - /mnt/media/backup/gamesaves:/repo
+      - ./restic_password:/run/secrets/restic_password:ro

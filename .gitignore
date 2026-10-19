@@ -1,0 +1,36 @@
+# Secrets
+qbittorrent/.env
+homeassistant/.ewelink_env
+gamesaves/restic_password
+
+# filegator
+filegator/private/
+filegator/configuration.php
+filegator/uploads.ini
+filegator/filegator/
+
+# gamesaves
+gamesaves/syncthing/
+
+# gateway (nginx conf.d, snippets and html are tracked)
+gateway/nginx/logs/
+
+# homeassistant
+homeassistant/config/
+homeassistant/whisper_data/
+homeassistant/piper_data/
+homeassistant/piper_voices/
+homeassistant/ewelink_data/
+homeassistant/ewelink-ha-addon/
+
+# media
+media/jellyfin/
+media/sonarr/
+media/radarr/
+media/prowlarr/
+media/flaresolverr/
+media/bazarr/
+
+# qbittorrent
+qbittorrent/config/
+qbittorrent/gluetun/
