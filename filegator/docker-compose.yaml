@@ -10,4 +10,4 @@ services:
       - ./private:/var/www/filegator/private
       - ./configuration.php:/var/www/filegator/configuration.php
       - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
-    restart: 'always'
+    restart: unless-stopped

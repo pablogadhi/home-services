@@ -6,7 +6,7 @@ services:
       - ./config:/config
       - /etc/localtime:/etc/localtime:ro
       - /run/dbus:/run/dbus:ro
-    restart: always
+    restart: unless-stopped
     privileged: true
     network_mode: host
   whisper:
@@ -20,7 +20,7 @@ services:
       --language en
       --model "base.en"
       --beam-size 4
-    restart: always
+    restart: unless-stopped
   piper:
     container_name: piper
     image: "rhasspy/wyoming-piper:1.5.0"
@@ -33,13 +33,13 @@ services:
       --update-voices
       --voice en_GB-semaine-medium
       --speaker 3
-    restart: always
+    restart: unless-stopped
   microwakeword:
     container_name: microwakeword
     image: "rhasspy/wyoming-microwakeword:latest"
     ports:
       - 10400:10400
-    restart: always
+    restart: unless-stopped
   ewelink:
     container_name: ewelink
     image: "ewelink_smart_home"
@@ -47,4 +47,4 @@ services:
       - ./ewelink_data:/data
     env_file: .ewelink_env
     network_mode: host
-    restart: always
+    restart: unless-stopped

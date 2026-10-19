@@ -19,6 +19,5 @@ Docker Compose stacks for the home server, one directory per stack.
 
 ## Notes
 
-- Runtime data, app config and secrets are git-ignored. Bulk data lives in `/mnt/media`.
 - Secrets to create: `qbittorrent/.env` (`WG_PRIVATE_KEY=...`), `homeassistant/.ewelink_env`, `gamesaves/restic_password`.
 - The `ewelink_smart_home` image is built locally from `homeassistant/ewelink-ha-addon`.
