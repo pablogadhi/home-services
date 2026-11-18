@@ -1,7 +1,7 @@
 # Secrets
-qbittorrent/.env
 homeassistant/.ewelink_env
 gamesaves/restic_password
+*.env
 
 # filegator
 filegator/private/
@@ -34,3 +34,7 @@ media/bazarr/
 # qbittorrent
 qbittorrent/config/
 qbittorrent/gluetun/
+
+# calibre
+calibre/config/
+calibre/data/

@@ -11,6 +11,7 @@ Docker Compose stacks for the home server, one directory per stack.
 | Stack | Containers | Purpose | Ports |
 |---|---|---|---|
 | `gateway` | nginx | Reverse proxy for `*.commander.one` (see [gateway/README.md](gateway/README.md)) | 80 (host) |
+| `calibre` | calibre-web-automated | E-book library (Calibre-Web-Automated) on `/mnt/media/media/Books` | 8083 |
 | `filegator` | filegator | Web file manager for `/mnt/media` | 8080 |
 | `gamesaves` | syncthing, restic-backup, restic-prune | Game save sync, with daily backups and weekly prunes to `/mnt/media/backup/gamesaves` | 8384 (host) |
 | `homeassistant` | homeassistant, whisper, piper, microwakeword, ewelink | Home automation, voice (STT/TTS/wake word), eWeLink devices | 8123 (host), 10300, 10200, 10400 |

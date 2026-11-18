@@ -50,6 +50,7 @@ configured for one. One-time change, then a restart.
 | Prowlarr | `prowlarr.commander.one` | Settings → General → Host → URL Base |
 | Syncthing | `syncthing.commander.one` | n/a — no base-path option, but requires a Host-check exemption (see below) |
 | Job Scout | `job-scout.commander.one` | n/a — set `JOB_SCOUT_FEEDBACK__BASE_URL=http://job-scout.commander.one` in `~/job-scout/.env` |
+| Calibre-Web | `calibre.commander.one` | n/a — no base-path option |
 
 ### Home Assistant
 
@@ -99,6 +100,7 @@ qbt.commander.one             → <server IP>
 prowlarr.commander.one        → <server IP>
 syncthing.commander.one       → <server IP>
 job-scout.commander.one       → <server IP>
+calibre.commander.one         → <server IP>
 ```
 
 A wildcard `*.commander.one` record is simpler and covers future services.
